@@ -1,0 +1,143 @@
+<%- include('../head'); -%>
+<%- include('../sidebar'); -%>
+<%- include('../header'); -%>
+
+
+<div class="content-wrap">
+
+  <div class="main">
+    <div class="container-fluid">
+
+      <!-- /# row -->
+      <section id="main-content">
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-title">
+                <h3>New IoT</h3>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-12" style="text-align: center; font-size: x-large;">
+                  
+
+                    <form id="saveIoT" method="POST" action="/iot/save" enctype="application/json">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="labelNomeIoT">Nome:</label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="nome" name="nome"
+                                            placeholder="Digite o nome do dispositivo" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="labelDescricaoIoT">Descrição:</label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <textarea style="resize: none;" class="form-control" id="descricao" name="descricao"
+                                        placeholder="Digite a descrição do dispositivo" rows="4"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="labelTipoIoT">Tipo:</label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="tipo" name="tipo"
+                                            placeholder="Digite o tipo do dispositivo" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="labelPkiIoT">Chave:</label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="pki" name="pki"
+                                            placeholder="Digite a chave do dispositivo" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <label for="labelOperacaoIoT">Operação:</label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="operacao" name="operacao"
+                                            placeholder="Digite a operação do dispositivo" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-lg-5"></div>
+                      <div class="col-lg-2">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                      </div>
+                      <div class="col-lg-5"></div>
+                    </div>
+      
+                    </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<%- include('../importScript'); -%>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<%- include('../head'); -%>
+<%- include('../sidebar'); -%>
+<%- include('../header'); -%>
+
+
+<div class="content-wrap">
+
+  <div class="main">
+    <div class="container-fluid">
+
+      <!-- /# row -->
+      <section id="main-content">
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Transaction</h3>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-12" style="text-align: center; font-size: x-large;">
+                  
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<%- include('../importScript'); -%>
+<script type="text/javascript">
+  const url_string = window.location.href;
+
+  var url = new URL(url_string);
+  var result = url.searchParams.get("msg");
+
+  if(result === 'success'){
+    toastr.clear()
+    toastr.success('Operação realizada com sucesso!', 'Sucesso!')
+
+  }else if (result === 'iottaskerror'){
+    toastr.clear()
+    toastr.error('Não existe um dispositivo com esta operação!', 'Erro!')
+
+  }else if (result === 'usererror'){
+    toastr.clear()
+    toastr.error('Usuário não autorizado!', 'Erro!')
+
+  }else if (result === 'internalerror'){
+    toastr.clear()
+    toastr.error('Ocorreu um erro interno!', 'Erro!')
+  }
+
+</script>
+</body>
+
+</html>

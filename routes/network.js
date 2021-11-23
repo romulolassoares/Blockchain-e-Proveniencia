@@ -4,6 +4,9 @@ const createNetwork = require('../app/controller/createNetwork')
 const rimraf = require("rimraf");
 const path = require('path');
 const RedeDatabase = require('../app/database/models/RedeModel')
+const enrollAdmin = require('../app/transaction/enrollAdmin')
+const registerUser = require('../app/transaction/registerUser')
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //CRUD REDE
@@ -121,6 +124,104 @@ router.get('/routeInstallChaincode/:id', async (req, res)=>{
     const rededatabase = await RedeDatabase.findById(req.params.id)
     res.send(rededatabase);
     createNetwork.deployCC(rededatabase);
+});
+
+
+
+router.get('/enrollAdmin', async (req, res)=>{
+    
+    resultado = 0
+
+    const rede = await RedeDatabase.findOne({
+        isOnline: true
+    })
+
+    // console.log(rede)
+
+    if(rede) {
+        resultado = await enrollAdmin.enrollAdmin(rede);
+    } else {
+        console.log("Nenhuma rede iniciada!!!!")
+        resultado = 3
+    }
+
+    if(resultado == 1){
+        res.send(JSON.parse('{ "result":"success"}'));
+    }else if(resultado == 2){
+        res.send(JSON.parse('{ "result":"exists"}'));
+    }else if(resultado == 3){
+        res.send(JSON.parse('{ "result":"error"}'));
+    }
+});
+
+router.get('/cadastrarUsuario', (req, res)=>{
+    res.render('cadastrarUsuario',{
+        css: ''
+      });
+});
+
+router.get('/cadastrarAdmin', (req, res)=>{
+    res.render('admin/cadastrarAdmin',{
+        css: ''
+      });
+});
+
+router.get('/registerUser/:nome', async (req, res)=>{
+    
+    nomeUsuario = req.params.nome;
+
+    const rede = await RedeDatabase.findOne({
+        isOnline: true
+    })
+
+    // console.log(rede)
+
+    if(rede) {
+        resultado = await registerUser.registerUser(nomeUsuario, rede)
+    } else {
+        console.log("Nenhuma rede iniciada!!!!")
+        resultado = 3
+    }
+
+    if(resultado == 1){
+        res.send(JSON.parse('{ "result":"success"}'));
+    
+    }else if(resultado == 2){    
+        res.send(JSON.parse('{ "result":"recorded"}'));
+    
+    }else if(resultado == 3){    
+        res.send(JSON.parse('{ "result":"adminMissing"}'));
+    
+    }else if(resultado == 4){    
+        res.send(JSON.parse('{ "result":"error"}'));
+    }
+    
+});
+
+router.get('/enrollAdmin', async (req, res)=>{
+    
+    resultado = 0
+
+    const rede = await RedeDatabase.findOne({
+        isOnline: true
+    })
+
+    // console.log(rede)
+
+    if(rede) {
+        resultado = await enrollAdmin.enrollAdmin(rede);
+    } else {
+        console.log("Nenhuma rede iniciada!!!!")
+        resultado = 3
+    }
+
+    if(resultado == 1){
+        res.send(JSON.parse('{ "result":"success"}'));
+    }else if(resultado == 2){
+        res.send(JSON.parse('{ "result":"exists"}'));
+    }else if(resultado == 3){
+        res.send(JSON.parse('{ "result":"error"}'));
+    }
 });
 
 module.exports = router;

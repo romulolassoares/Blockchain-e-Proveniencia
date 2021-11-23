@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon --ignore networks/ ./bin/www"
   },
   "dependencies": {
     "@popperjs/core": "^2.5.3",
@@ -15,6 +15,8 @@
     "dotenv": "^8.2.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "fabric-ca-client": "^2.2.10",
+    "fabric-network": "^2.2.10",
     "fs-extra": "^9.0.1",
     "http-errors": "~1.6.3",
     "jquery": "^3.5.1",
@@ -26,6 +28,7 @@
     "rimraf": "^3.0.2",
     "shelljs": "^0.8.4",
     "toastr": "^2.1.4",
+    "uuid": "^8.3.2",
     "wrench": "^1.5.9"
   },
   "devDependencies": {

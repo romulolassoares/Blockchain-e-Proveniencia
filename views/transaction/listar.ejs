@@ -1,0 +1,108 @@
+<%- include('../head'); -%>
+<%- include('../sidebar'); -%>
+<%- include('../header'); -%>
+
+
+<div class="content-wrap">
+
+  <div class="main">
+    <div class="container-fluid">
+
+      <!-- /# row -->
+      <section id="main-content">
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Transactions</h3>
+              </div>
+              <br>
+
+              <div class="row">
+                <div class="col-md-12" style="text-align: center; font-size: x-large;">
+                  
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">UserPki</th>
+                        <th scope="col">IoTPki</th>
+                        <th scope="col">Task</th>
+                        <th scope="col">Timestamp</th>
+                        <th style="text-align: center;" scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                      
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<%- include('../importScript'); -%>
+<script type="text/javascript">
+
+  window.onload = function start(){
+    axios.get('/transaction/getTransactions')
+      .then(function (response) {
+        
+        transactions = response.data
+
+        conteudo = "";
+
+        for (let i = 0; i < transactions.length; i++) {
+          if (transactions[i].status === "success") {
+            conteudo += "<tr class='table-success'>";
+              conteudo += "<th scope='row'></th>";
+              
+              conteudo += "<th scope='row'>" + transactions[i].userPki + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].iotPki + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].task + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].timestamp + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].status + "</th>";
+              
+            conteudo += "</tr>";
+
+          } else {
+            conteudo += "<tr class='table-danger'>";
+              conteudo += "<th scope='row'></th>";
+              
+              conteudo += "<th scope='row'>" + transactions[i].userPki + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].iotPki + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].task + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].timestamp + "</th>";
+              conteudo += "<th scope='row'>" + transactions[i].status + "</th>";
+              
+            conteudo += "</tr>";
+
+          }
+
+          document.getElementById('tableBody').innerHTML = conteudo;
+
+        }
+
+      })
+      .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+      .finally(function () {
+          // always executed
+      });
+  }
+
+</script>
+</body>
+
+</html>

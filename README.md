@@ -1,7 +1,7 @@
 # Projeto
  
-![GitHub repo size](https://img.shields.io/github/repo-size/romulolassoares/Projeto-IC-UFJF?style=for-the-badge)
-![GitHub language count](https://img.shields.io/github/languages/count/romulolassoares/Projeto-IC-UFJF?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/romulolassoares/Blockchian-e-Proveniencia?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/romulolassoares/Blockchian-e-Proveniencia?style=for-the-badge)
  
 ## 💻 Sobre o projeto
  

@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-    async saveTransaction(transactionID, userPki, iotPki, task, timestamp, rede) {
+    async saveTransaction(transactionID, userPki, iotPki, task, infoPrint, timestamp, rede) {
         console.log(rede)
         try {
             // load the network configuration
@@ -42,7 +42,7 @@ module.exports = {
             const contract = network.getContract('fastenetwork');
 
             // Submit the specified transaction.
-            await contract.submitTransaction("createTransaction", transactionID, userPki, iotPki, task, timestamp);
+            await contract.submitTransaction("createTransaction", transactionID, userPki, iotPki, task, infoPrint, timestamp);
             console.log('Transaction has been submitted');
 
             // Disconnect from the gateway.

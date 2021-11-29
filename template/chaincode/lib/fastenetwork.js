@@ -25,7 +25,7 @@ class FasteNetwork extends Contract {
         return response.toString();
     }
 
-    async createTransaction(ctx, transactionID, userPki, iotPki, task, timestamp) {
+    async createTransaction(ctx, transactionID, userPki, iotPki, task, info, timestamp) {
         console.info('============= START : Create Transaction ===========');
 
         const transaction = {
@@ -33,6 +33,7 @@ class FasteNetwork extends Contract {
             userPki,
             iotPki,
             task,
+            info: info,
             timestamp,
         };
 

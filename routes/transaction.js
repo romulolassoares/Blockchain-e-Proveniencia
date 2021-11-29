@@ -22,9 +22,18 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/save', async (req, res) => {
-    const {userPki, iotPki, task} = req.body;
+    const { userPki, iotPki, task, nome, cor, copias, orientacao } = req.body;
     const transactionID = uuidv4();
     const timestamp = Date.now();
+
+    const infoPrint = {
+        docName: nome,
+        color: cor,
+        copy: copias,
+        orientation: orientacao,
+     };
+
+    console.log(infoPrint);
 
     var resultIoT = await IoTDatabase.findOne({pki: iotPki, operacao: task});
 
@@ -51,7 +60,7 @@ router.post('/save', async (req, res) => {
     
         var antes = Date.now();
         if(rede) {
-            var resultTransaction = await invoke.saveTransaction(transactionID, userPki, iotPki, task, timestamp, rede);
+            var resultTransaction = await invoke.saveTransaction(transactionID, userPki, iotPki, task, infoPrint,timestamp, rede);
         } else {
             console.log("Nenhuma rede iniciada!!!!")
             resultado = 3

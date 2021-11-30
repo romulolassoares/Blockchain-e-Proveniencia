@@ -34,6 +34,7 @@ async function prov(userPki, transactionID, task) {
   };
 
   const timestamp = new Date().toLocaleString();
+
   const provDatabase = new ProvDatabase({
       entity: entityData._id,
       activity: activityData._id,
@@ -74,6 +75,4 @@ async function register(userPki, transactionID, task) {
     await prov(userPki, transactionID, task);
 }
 
-module.exports = {
-  register,
-};
+module.exports = { register };

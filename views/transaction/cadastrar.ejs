@@ -5,98 +5,114 @@
 
 <div class="content-wrap">
 
-  <div class="main">
-    <div class="container-fluid">
-      <!-- /# row -->
-      <section id="main-content">
-        <div class="row">
+	<div class="main">
+		<div class="container-fluid">
+			<!-- /# row -->
+			<section id="main-content">
+				<div class="row">
 
-          <div class="col-lg-12">
+					<div class="col-lg-12">
 
-            <div class="card">
-              <div class="card-title">
-                <h3>New Transaction</h3>
-              </div>
+						<div class="card">
+							<div class="card-title">
+								<h3>New Transaction</h3>
+							</div>
 
-              <div class="col-md-12" style="font-size: x-large;">
+							<div class="col-md-12" style="font-size: x-large;">
 
-                <form id="saveIoT" method="POST" action="/transaction/save" enctype="application/json">
+								<form id="saveIoT" method="POST" action="/transaction/save" enctype="application/json">
 
-                  <div class="form-row">
-                    <div class="form-group col-md-4">
-                      <label for="labelPkiUser">ChaveUsuário:</label>
-                      <input type="text" class="form-control" id="userPki" name="userPki"
-                        placeholder="Digite a chave do Usuário" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="labelPkiIoT">ChaveIoT:</label>
-                      <input type="text" class="form-control" id="iotPki" name="iotPki"
-                        placeholder="Digite a chave do dispositivo" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="labelOperacaoIoT">Operação:</label>
-                      <input type="text" class="form-control" id="task" name="task"
-                        placeholder="Digite a operação a ser realizada" required>
-                    </div>
-                  </div>
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="labelPkiUser">ChaveUsuário:</label>
+											<input type="text" class="form-control" id="userPki" name="userPki"
+												placeholder="Digite a chave do Usuário" required>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="labelPkiIoT">ChaveIoT:</label>
+											<input type="text" class="form-control" id="iotPki" name="iotPki"
+												placeholder="Digite a chave do dispositivo" required>
+										</div>
+										<div class="form-group col-md-4">
+											<label for="labelOperacaoIoT">Operação:</label>
+											<input type="text" class="form-control" id="task" name="task"
+												placeholder="Digite a operação a ser realizada" required>
+										</div>
+									</div>
 
-                  <h3 style="text-align: center;">Document</h3>
+									<h3 style="text-align: center;">Informações da impressão 3D</h3>
 
-                  <div class="form-group">
-                    <label for="labelNome">Nome:</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome do Arquivo"
-                      required>
-                  </div>
+									<div class="form-group">
+										<div class="form-row">
+											<div class="form-group col-md-3">
+												<label for="labelPrintBrand">Marca:</label>
+												<input type="text" class="form-control" id="printBrand" name="printBrand"
+													placeholder="..." readonly>
+											</div>
+											<div class="form-group col-md-3">
+												<label for="labelPrintMaterial">Material:</label>
+												<input type="text" class="form-control" id="printMaterial" name="printMaterial"
+													placeholder="..." readonly>
+											</div>
+											<div class="form-group col-md-3">
+												<label for="labelPrintColor">Cor:</label>
+												<input type="text" class="form-control" id="printColor" name="printColor"
+													placeholder="..." readonly>
+											</div>
+											<div class="form-group col-md-3">
+												<label for="labelPrintLabel">Tipo:</label>
+												<input type="text" class="form-control" id="printLabel" name="printLabel"
+													placeholder="..." readonly>
+											</div>
+										</div>
+									</div>
 
-                  <div class="form-row">
-                    <div class="form-group col-md-4">
-                      <label for="labelCor">Cor:</label>
-                      <select class="form-control" id="cor" name="cor">
-                        <option style="color: rgb(70, 70, 70);" value="" disabled selected hidden>Selecione uma
-                          cor</option>
-                        <option value="1">Preto e Branco</option>
-                        <option value="2">Colorido</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="labelOrientacao">Orientação:</label>
-                      <select class="form-control" id="orientacao" name="orientacao">
-                        <option style="color: rgb(70, 70, 70);" value="" disabled selected hidden>Orientação
-                        </option>
-                        <option value="1">Retrato</option>
-                        <option value="2">Paisagem</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-md-4">
-                      <label for="labelCopia">Copias:</label>
-                      <input type="number" class="form-control" id="copias" name="copias" required>
-                    </div>
-                  </div>
+									<div class="form-group">
+										<div class="form-row">
+											<div class="form-group col-md-12">
+												<label for="labelPrintGUID">GUID:</label>
+												<input type="text" class="form-control" id="printGUID" name="printGUID"
+													placeholder="..." readonly>
+											</div>
+										</div>
+									</div>
 
-                  <!-- <div class="form-group">
-                    <label for="labelInputFile">Enviar o arquivo</label>
-                    <input type="file" id="file" name="file" accept="image/png, image/jpeg" disabled>
-                  </div> -->
+									<div class="form-group">
+										<div class="form-row">
+											<div class="form-group col-md-6">
+												<label for="labelPrintDensity">Densidade:</label>
+												<input type="text" class="form-control" id="printDensity" name="printDensity"
+													placeholder="..." readonly>
+											</div>
+											<div class="form-group col-md-6">
+												<label for="labelPrintDiameter">Diametro:</label>
+												<input type="text" class="form-control" id="printDiameter" name="printDiameter"
+													placeholder="..." readonly>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-lg-5"></div>
+										<div class="col-lg-2">
+											<button type="submit" class="btn btn-success">Salvar</button>
+										</div>
+										<div class="col-lg-5"></div>
+									</div>
 
-                  <div class="row">
-                    <div class="col-lg-5"></div>
-                    <div class="col-lg-2">
-                      <button type="submit" class="btn btn-success">Salvar</button>
-                    </div>
-                    <div class="col-lg-5"></div>
-                  </div>
+								</form>
 
-                </form>
+							</div>
 
-              </div>
+						</div>
+					</div>
 
-            </div>
-          </div>
-
-        </div>
-      </section>
-    </div>
-  </div>
+				</div>
+			</section>
+		</div>
+	</div>
 </div>
+
+<script src="/js/listPrinterInfo.js"></script>
 
 <%- include('../importScript'); -%>

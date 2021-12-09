@@ -130,6 +130,11 @@ router.get('/get', function(req, res) {
 router.get('/getTransactions', async (req, res) => {
     res.send(await LogDatabase.find());
 });
-  
 
+router.get('/getPrinterInfo', async (req, res) => {
+    const config = require('../template/printerData/printer01.json');
+    // console.log(config);
+    res.send(config);
+});
+  
 module.exports = router;

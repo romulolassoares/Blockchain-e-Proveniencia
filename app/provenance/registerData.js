@@ -44,6 +44,13 @@ async function prov(userPki, transactionID, task) {
   });
 
   provDatabase.save();
+  return {
+    "entity": entityData._id,
+    "activity": activityData._id,
+    "agent": agentData._id,
+    "relationship": relationship,
+    "timestamp": timestamp
+  }
 }
 
 async function relashionshipRegister() {}
@@ -72,7 +79,8 @@ async function register(userPki, transactionID, task) {
     await entityDatabase.save();
     await activityDatabase.save();
 
-    await prov(userPki, transactionID, task);
+    const info = await prov(userPki, transactionID, task);
+    return info;
 }
 
 module.exports = { register };

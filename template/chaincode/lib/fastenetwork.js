@@ -52,6 +52,19 @@ class FasteNetwork extends Contract {
         return transactionAsBytes.toString();
     }
 
+    async createProv(ctx, transactionID, info) {
+        console.info('============= START : Create Transaction ===========');
+
+        const transaction = {
+            docType: 'transaction',
+            info
+        };
+
+        var response = await ctx.stub.putState(transactionID, Buffer.from(JSON.stringify(transaction)));
+        console.info('============= END : Create Transaction ===========');
+        console.info(response);
+    }
+
 }
 
 module.exports = FasteNetwork;

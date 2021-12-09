@@ -22,15 +22,23 @@ router.get('/new', function(req, res) {
 });
 
 router.post('/save', async (req, res) => {
-    const { userPki, iotPki, task, nome, cor, copias, orientacao } = req.body;
+    const { userPki, iotPki, task, printBrand, printMaterial, printColor, printLabel, printGUID, printDestiny, printDiameter,  } = req.body;
     const transactionID = uuidv4();
+    const provenanceID = uuidv4();
     const timestamp = Date.now();
 
     const infoPrint = {
-        docName: nome,
-        color: cor,
-        copy: copias,
-        orientation: orientacao,
+        "name": {
+            "brand": printBrand,
+            "material": printMaterial,
+            "color": printColor,
+            "label": printLabel
+        },
+        "GUID": printGUID,
+        "properties": {
+            "density": printDestiny,
+            "diameter": printDiameter
+        }
      };
 
     console.log(infoPrint);
@@ -60,7 +68,7 @@ router.post('/save', async (req, res) => {
     
         var antes = Date.now();
         if(rede) {
-            var resultTransaction = await invoke.saveTransaction(transactionID, userPki, iotPki, task, infoPrint,timestamp, rede);
+            var resultTransaction = await invoke.saveTransaction(transactionID, userPki, iotPki, task, JSON.stringify(infoPrint), timestamp, rede);
         } else {
             console.log("Nenhuma rede iniciada!!!!")
             resultado = 3
@@ -81,7 +89,9 @@ router.post('/save', async (req, res) => {
                 status: status
             })
 
-            await registerProv.register(userPki,transactionID, task);
+            infoProv = await registerProv.register(userPki,transactionID, task);
+
+            await invoke.saveProv(provenanceID, userPki, JSON.stringify(infoProv), rede);
 
             await logDatabase.save();
             res.redirect('/transaction?msg=success');
@@ -130,6 +140,11 @@ router.get('/get', function(req, res) {
 router.get('/getTransactions', async (req, res) => {
     res.send(await LogDatabase.find());
 });
-  
 
+router.get('/getPrinterInfo', async (req, res) => {
+    const config = require('../template/printerData/printer01.json');
+    // console.log(config);
+    res.send(config);
+});
+  
 module.exports = router;

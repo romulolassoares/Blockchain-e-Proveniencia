@@ -5,8 +5,9 @@ const IoTDatabase = require('../app/database/models/IoTModel');
 const LogDatabase = require('../app/database/models/LogModel');
 const { v4: uuidv4 } = require('uuid');
 const invoke = require('../app/transaction/invoke')
+const query = require('../app/transaction/query')
 const RedeDatabase = require('../app/database/models/RedeModel')
-
+const UserDatabase = require('../app/database/models/UserModel')
 const registerProv = require('../app/provenance/registerData')
 
 router.get('/', function(req, res) {

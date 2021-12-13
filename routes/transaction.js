@@ -142,6 +142,48 @@ router.get('/getTransactions', async (req, res) => {
     res.send(await LogDatabase.find());
 });
 
+router.get('/list', function(req, res) {
+    res.render('transaction/listType',{
+        css: ''
+    });
+});
+
+router.get('/listTransactions', async (req, res) => {
+    // const { userPki, iotPki, task, printBrand, printMaterial, printColor, printLabel, printGUID, printDestiny, printDiameter,  } = req.body;
+    var userPki = "r01"
+
+    var resultUser = await UserDatabase.findOne({ pki: userPki });
+    // console.log(resultUser);
+
+    if(resultUser === null){
+        const status = "user not find"
+       
+        res.send("error");
+    
+    } else {
+
+        const rede = await RedeDatabase.findOne({
+            isOnline: true
+        })
+        var resultProvData = "{}";
+        var antes = Date.now();
+        console.log(rede)
+        if(rede) {
+            resultProvData = await query.getAllData(resultUser, rede);
+        } else {
+            console.log("Nenhuma rede iniciada!!!!")
+            resultado = 3
+        }
+        
+        var duracao = Date.now() - antes;
+        console.log("levou " + duracao + "ms");
+
+        console.log(resultProvData)
+        var provJson = JSON.parse(resultProvData);
+        res.send(provJson);
+    }
+});
+
 router.get('/getPrinterInfo', async (req, res) => {
     const config = require('../template/printerData/printer01.json');
     // console.log(config);

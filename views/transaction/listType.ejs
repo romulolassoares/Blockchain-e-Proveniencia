@@ -1,0 +1,170 @@
+<%- include('../head'); -%>
+<%- include('../sidebar'); -%>
+<%- include('../header'); -%>
+
+
+<div class="content-wrap">
+
+  <div class="main">
+    <div class="container-fluid">
+
+      <!-- /# row -->
+      <section id="main-content">
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="card" id="cardHidden" hidden>
+              <div class="card-title">
+                <h3>Transactions</h3>
+              </div>
+              <br>
+
+              <label for="sel1">Select Type:</label>
+              <select class="form-control" id="selectDocType" onchange="change()">
+                <option value="transaction" selected>Transações</option>
+                <option value="provenance">Proveniência</option>
+              </select>
+
+              <div class="row">
+                <div class="col-md-12" style="text-align: center; font-size: x-large;">
+                  
+                  <table class="table" id="tableTransaction" hidden>
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">UserPki</th>
+                        <th scope="col">IoTPki</th>
+                        <th scope="col">Task</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableBodyTransaction">
+                      
+                    </tbody>
+                  </table>
+
+                  <table class="table" id="tableProvenance" hidden>
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Agent</th>
+                        <th scope="col">Activity</th>
+                        <th scope="col">Entity</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableBodyProvenance">
+                      
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<%- include('../importScript'); -%>
+<script type="text/javascript">
+  var data = '';
+
+  window.onload = function start(){
+    axios.get('/transaction/listTransactions')
+      .then(function (response) {
+        
+        var transactions = response.data
+        data = transactions
+        console.log(transactions)
+
+        var select = document.getElementById('selectDocType')
+        // console.log(select.value)
+
+        document.getElementById('cardHidden').hidden = false;
+
+        if(select.value === 'transaction') {
+          tableTransaction(data);
+        } else {
+          tableProvenance(data);
+        }
+      })
+      .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+      .finally(function () {
+          // always executed
+      });
+  }
+
+
+  function change() {
+    var select = document.getElementById('selectDocType')
+    // console.log(select.value)
+
+    if(select.value === 'transaction') {
+      tableTransaction(data);
+    } else {
+      tableProvenance(data);
+    }
+  }
+
+  function tableTransaction(transactions) {
+    console.log(data)
+    conteudo = "";
+    document.getElementById('tableProvenance').hidden = true;
+    document.getElementById('tableTransaction').hidden = false;
+
+    for (let i = 0; i < transactions.length; i++) {
+
+      if(data[i].Record.docType === "transaction") {
+        conteudo += "<tr class='table'>";
+          conteudo += "<th scope='row'></th>";
+          
+          conteudo += "<th scope='row'>" + transactions[i].Record.userPki + "</th>";
+          conteudo += "<th scope='row'>" + transactions[i].Record.iotPki + "</th>";
+          conteudo += "<th scope='row'>" + transactions[i].Record.task + "</th>";
+          
+        conteudo += "</tr>";
+
+        document.getElementById('tableBodyTransaction').innerHTML = conteudo;
+      }
+
+    }
+  }
+
+  function tableProvenance(transactions) {
+    console.log(data)
+    conteudo = "";
+    document.getElementById('tableProvenance').hidden = false;
+    document.getElementById('tableTransaction').hidden = true;
+
+    for (let i = 0; i < transactions.length; i++) {
+
+      if(data[i].Record.docType === "provenance") {
+        dataJson = JSON.parse(data[i].Record.info)
+        conteudo += "<tr class='table'>";
+          conteudo += "<th scope='row'></th>";
+          
+          conteudo += "<th scope='row'>" + dataJson.agent + "</th>";
+          conteudo += "<th scope='row'>" + dataJson.activity + "</th>";
+          conteudo += "<th scope='row'>" + dataJson.entity + "</th>";
+          
+        conteudo += "</tr>";
+
+        document.getElementById('tableBodyProvenance').innerHTML = conteudo;
+      }
+
+    }
+  }
+
+</script>
+</body>
+
+</html>

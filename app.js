@@ -36,6 +36,7 @@ var iotRouter = require('./routes/iot');
 var transactionRouter = require('./routes/transaction');
 var provRouter = require('./routes/prov');
 var documentRouter = require('./routes/document')
+var apiProvRouter = require('./routes/apiProv')
 
 
 app.use('/network', networkRouter);
@@ -46,6 +47,7 @@ app.use('/iot', iotRouter);
 app.use('/transaction', transactionRouter);
 app.use('/prov', provRouter);
 app.use('/document', documentRouter);
+app.use('/api_prov', apiProvRouter);
 //------END
 
 // catch 404 and forward to error handler

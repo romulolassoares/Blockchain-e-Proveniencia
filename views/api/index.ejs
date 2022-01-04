@@ -1,0 +1,52 @@
+<%- include('../head'); -%>
+<%- include('../sidebar'); -%>
+<%- include('../header'); -%>
+
+
+<div class="content-wrap">
+
+  <div class="main">
+    <div class="container-fluid">
+
+      <!-- /# row -->
+      <section id="main-content">
+        <div class="row">
+
+          <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-title">
+                <h3>Conexão com a API</h3>
+              </div>
+              <br>
+
+              <button class="btn btn-primary" onclick=getAllActivity()> Get All Activity</button>
+              <br>
+              <button class="btn btn-primary" onclick=getAllAgent()> Get All Agents</button>
+              <br>
+              <button class="btn btn-primary" onclick=getAllEntity()> Get All Entity</button>
+              <br>
+              <button class="btn btn-primary" onclick=getProvData()> Get Provenance</button>
+              <br>
+
+              
+              <span id="dataPrint">DATA</span>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+
+
+<%- include('../importScript'); -%>
+<script src="/js/auxProv.js"></script>
+
+</body>
+
+</html>

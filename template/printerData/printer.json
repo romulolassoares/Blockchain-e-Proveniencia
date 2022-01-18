@@ -1,0 +1,100 @@
+{
+   "value1": {
+      "name": {
+            "brand": "Generic",
+            "material": "PLA",
+            "color": "Generic",
+            "label": "PLA"
+         },
+         "GUID": "506c9f0d-e3aa-4bd4-b2d2-23e2425b1aa9",
+         "properties": {
+            "density": "1.24",
+            "diameter": "2.85"
+         },
+         "settings": {
+            "anti ooze retract position": "-4",
+            "anti ooze retract speed": "50",
+            "break preparation position": "-16",
+            "break preparation speed": "50",
+            "break preparation temperature": "210",
+            "break position": "-50",
+            "break speed": "25",
+            "break temperature": "60",
+            "flush purge length": "60",
+            "maximum park duration": "7200",
+            "no load move factor": "0.91",
+            "print temperature": "200",
+            "heated bed temperature": "60",
+            "standby temperature": "175",
+            "adhesion tendency": "0",
+            "surface energy": "100",
+            "build volume temperature": "28"
+         }
+   },
+   "value2": {
+      "name": {
+         "brand": "Generic",
+         "material": "PLA",
+         "color": "Generic",
+         "label": "PLA"
+      },
+      "GUID": "506c9f0d-e3aa-4bd4-b2d2-23e2425b1aa9",
+      "properties": {
+         "density": "1.24",
+         "diameter": "2.85"
+      },
+      "settings": {
+         "anti ooze retract position": "-4",
+         "anti ooze retract speed": "50",
+         "break preparation position": "-16",
+         "break preparation speed": "50",
+         "break preparation temperature": "210",
+         "break position": "-50",
+         "break speed": "25",
+         "break temperature": "60",
+         "flush purge length": "60",
+         "maximum park duration": "7200",
+         "no load move factor": "0.91",
+         "print temperature": "200",
+         "heated bed temperature": "60",
+         "standby temperature": "175",
+         "adhesion tendency": "0",
+         "surface energy": "100",
+         "build volume temperature": "28"
+      }
+   },
+   "value3": {
+      "name": {
+         "brand": "Generic",
+         "material": "Nylon",
+         "color": "Generic",
+         "label": "Nylon"
+      },
+      "GUID": "28fb4162-db74-49e1-9008-d05f1e8bef5c",
+      "properties": {
+         "density": "1.14",
+         "diameter": "2.85"
+      },
+      "settings": {
+         "anti ooze retract position": "-8",
+         "anti ooze retract speed": "25",
+         "break preparation position": "0",
+         "break preparation speed": "2",
+         "break preparation temperature": "250",
+         "break position": "-50",
+         "break speed": "25",
+         "break temperature": "145",
+         "flush purge length": "60",
+         "maximum park duration": "7200",
+         "no load move factor": "0.91",
+         "print temperature": "245",
+         "heated bed temperature": "60",
+         "standby temperature": "175",
+         "retraction amount": "8",
+         "retraction speed": "25",
+         "adhesion tendency": "2",
+         "surface energy": "100",
+         "build volume temperature": "35"
+      }
+   }
+}

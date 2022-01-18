@@ -1,0 +1,20 @@
+{
+   "value1": {
+      "docTitle": "artigo",
+      "format": "txt",
+      "author": "romulo",
+      "base64": "RXNxdWVtYSBkYSBSZWRlOgotTm9tZTogcmVkZQotRGVzY3Jpw6fDo286IFJlZGUgcGFyYSB0ZXN0ZXMgZGEgc2ltdWxhw6fDo28gbm8gYW1iaWVudGUgRkFTVEVOCi1Pcmdhbml6YcOnw7VlczoKLS1PcmcxLTMKLS1PcmcyLTIKLS1PcmczLTMKLUNhbmFsOm15Y2hhbm5lbAoKQ29tcHV0YWRvciB1c2FkbzoKLWk1IDEwNDAwZgotMTZHQiBtZW1vcmlhIHJhbQotVWJ1bnR1IDIwLjA0IGx0cwotSHlwZXJsZWRnZXIgRmFicmljIDIuMi4yCgpSZXN1bHRhZG9zIGVtIHRlc3RlczoKLVRlc3RlMSAKVHJhbnNhY3Rpb24gaGFzIGJlZW4gc3VibWl0dGVkCmxldm91IDIyNjFtcwotVGVzdGUyClRyYW5zYWN0aW9uIGhhcyBiZWVuIHN1Ym1pdHRlZApsZXZvdSAyNzc0bXMKLVRlc3RlMwpHRVQgL3RyYW5zYWN0aW9uP21zZz1pb3R0YXNrZXJyb3IgMjAwIDIuNzEyIG1zIC0gNTc4OQotVGVzdGU0CkdFVCAvdHJhbnNhY3Rpb24/bXNnPWlvdHRhc2tlcnJvciAyMDAgMS4yMTUgbXMgLSA1Nzg5Ci1UZXN0ZTUKVHJhbnNhY3Rpb24gaGFzIGJlZW4gc3VibWl0dGVkCmxldm91IDIyMzJtcwo="
+   },
+   "value2": {
+      "docTitle": "BlockchainLinks",
+      "format": "txt",
+      "author": "leo",
+      "base64": "aHR0cHM6Ly9jcnlwdG96b21iaWVzLmlvLwpodHRwczovL3d3dy55b3V0dWJlLmNvbS9jL0VhdFRoZUJsb2NrcwpodHRwczovL3d3dy55b3V0dWJlLmNvbS9jL0RhcHBVbml2ZXJzaXR5Cmh0dHBzOi8vZG9jcy5jYXJkYW5vLm9yZy9pbnRyb2R1Y3Rpb24KaHR0cHM6Ly9kb2NzLnNvbGFuYS5jb20vZGV2ZWxvcGluZy9vbi1jaGFpbi1wcm9ncmFtcy9kZXZlbG9waW5nLXJ1c3QK"
+   },
+   "value3": {
+      "docTitle": "sshkey",
+      "format": "txt",
+      "author": "claudia",
+      "base64": "Ky0tLVtSU0EgMzA3Ml0tLS0tKwp8ICAuLm9vPS4gICAgICAgICB8CnwgICArLitvbyAgICAgICAgIHwKfC4uK0VvLi4uICAgICAgICAgfAp8Lj1vKiAgby5vICAgICAgICB8Cnxvb08ub28uK1MuICAgICAgIHwKfCsrLj0uK28gKyAgICAgICAgfAp8Ky5vICtvPW8gLiAgICAgICB8CnxvLiAuICtvb28gICAgICAgIHwKfC4uICAuIC4gIC4gICAgICAgfAorLS0tLVtTSEEyNTZdLS0tLS0rCgo="
+   }
+}

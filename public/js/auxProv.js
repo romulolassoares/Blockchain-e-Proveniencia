@@ -1,3 +1,8 @@
+// var express = require('express');
+// var router = express.Router();
+
+// const axios = require('axios')
+
 window.onload = function start(){
    console.log('hello world')
 }
@@ -79,4 +84,18 @@ function getProvData() {
    .finally(function () {
        // always executed
    });
+}
+
+function postActivity() {
+   axios.post('/api_prov/register_activity', {
+      "name": "TransactionTest",
+      "provType": "transaction",
+      "info": {
+         "pki": "ttt0101",
+         "date": "date11"
+      }
+   })
+   .then(function (response) {
+      // console.log('Function Post Activity' + response.data);
+   })
 }

@@ -65,4 +65,18 @@ router.get('/index', function(req, res, next){
    });
 })
 
+router.post('/register_activity', (req, res) => {
+
+   console.log(req.body)
+
+   // axios.post('http://127.0.0.1:3333/activity/post', req.body)
+   // .then((res) => {
+   //    console.log(req.body)
+   // }, (error) => {
+   //    console.log(error)
+   // })
+
+   res.status(201).json(user)
+})
+
 module.exports = router;

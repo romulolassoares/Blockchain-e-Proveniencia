@@ -4,6 +4,8 @@ const router = express.Router();
 const UserDatabase = require('../app/database/models/UserModel')
 const registerUser = require('../app/transaction/registerUser')
 const RedeDatabase = require('../app/database/models/RedeModel')
+const createProvData = require('../app/provenance/createProvData')
+
 
 router.get('/', (req, res) =>{
   res.render('user/index',{
@@ -48,6 +50,7 @@ router.post('/save', async (req, res) => {
     })
   
     await userDatabase.save(); 
+    createProvData.registerAgent(nome, pki, "user")
     res.redirect('/user/get'); 
   } 
 

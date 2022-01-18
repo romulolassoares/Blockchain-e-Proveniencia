@@ -4,11 +4,18 @@ const router = express.Router();
 const IoTDatabase = require('../app/database/models/IoTModel');
 const LogDatabase = require('../app/database/models/LogModel');
 const { v4: uuidv4 } = require('uuid');
+
 const invoke = require('../app/transaction/invoke')
 const query = require('../app/transaction/query')
+
 const RedeDatabase = require('../app/database/models/RedeModel')
 const UserDatabase = require('../app/database/models/UserModel')
 const registerProv = require('../app/provenance/registerData')
+
+const createProvData = require('../app/provenance/createProvData')
+const getProvData = require('../app/provenance/getProvData')
+
+const fakeUpload = require('../app/controller/fakeUploadFile')
 
 router.get('/', function(req, res) {
     res.render('transaction/index',{
@@ -93,6 +100,46 @@ router.post('/save', async (req, res) => {
             infoProv = await registerProv.register(userPki,transactionID, task);
 
             await invoke.saveProv(provenanceID, userPki, JSON.stringify(infoProv), rede);
+
+            // Provenace Capture
+            const nameActivity = "transaction"+transactionID
+            const pkiActivity = transactionID;
+            const dateActivity = "date"
+            const provTypeActivity = "transaction"
+            await createProvData.registerActivity(nameActivity, pkiActivity, dateActivity, provTypeActivity)
+            const activity = await getProvData.getActivityByName(nameActivity)
+         
+            const agent = await getProvData.getAgentByName(userPki)
+         
+            await createProvData.wasAssociatedWith(agent, activity)
+            // create relathionships here?
+
+            // Call update file ----------------------------------------------------
+            const dataReturn = await fakeUpload.uploadFile()
+            const activityDoc = dataReturn.activity
+            const entityDoc = dataReturn.entity
+            
+
+            // const activityDoc = await getProvData.getActivityByName("")
+         
+            await createProvData.wasInformedBy(activityDoc, activity)
+
+            let n = (Math.random() * 0xfffff * 1000000).toString(16);
+            const printEntityID = n.slice(0,6);
+            console.log(printEntityID);
+            const namePrintEntity = "printEntity" + printEntityID;
+            const provTypePrintEntity = "print";
+            await createProvData.registerEntity(namePrintEntity, infoPrint, provTypePrintEntity);
+
+            const entityPrint = await getProvData.getEntityByName(namePrintEntity);
+
+            await createProvData.wasGeneratedBy(activity, entityPrint);
+
+            await createProvData.wasUsed(activity, entityPrint);
+
+            await createProvData.wasDerivedFrom(entityDoc, entityPrint);
+
+            // Finished
 
             await logDatabase.save();
             res.redirect('/transaction?msg=success');
@@ -185,9 +232,40 @@ router.get('/listTransactions', async (req, res) => {
 });
 
 router.get('/getPrinterInfo', async (req, res) => {
-    const config = require('../template/printerData/printer01.json');
+    // const config = require('../template/printerData/printer01.json');
+    const configTemp = require('../template/printerData/printer.json');
+
+    const rand = Math.floor(Math.random() * 3) + 1;
+    const config = configTemp['value' +  rand]
+
+    // // Call update file ----------------------------------------------------
+    // fakeUpload.uploadFile()
+    // Generate Activity DocGenerated -> registerActivity()
+    // Generate Doc Info -> registerEntity("docEntity", infoDoc, "doc")
+
+    const printBrand = config['name']['brand'];
+    const printMaterial = config['name']['material'];
+    const printColor = config['name']['color'];
+    const printLabel = config['name']['label'];
+    const printGUID = config['GUID'];
+    const printDesity = config['properties']['density'];
+    const printDiameter = config['properties']['diameter'];
+
+    const info = {
+        "brand": printBrand,
+        "material": printMaterial,
+        "color": printColor,
+        "label": printLabel,
+        "GUId": printGUID,
+        "density": printDesity,
+        "diameter": printDiameter
+     }
+
+    // createProvData.registerEntity("printEntity", info, "print");
     // console.log(config);
     res.send(config);
 });
+
+
   
 module.exports = router;

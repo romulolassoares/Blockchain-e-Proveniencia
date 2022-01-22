@@ -37,7 +37,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'FasteNetwork');
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('queryTransaction', transactionID);
@@ -80,7 +80,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'Provenance');
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('queryProvenance', provenanceID);

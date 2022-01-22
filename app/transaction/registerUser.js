@@ -27,7 +27,7 @@ module.exports = {
             const wallet = await Wallets.newFileSystemWallet(walletPath);
     
             // Check to see if we've already enrolled the user.
-            const userIdentity = await wallet.get(user);
+            const userIdentity = await wallet.get(user.pki);
             if (userIdentity) {
                 console.log(`An identity for the user "${user}" already exists in the wallet`);
                 return 2;

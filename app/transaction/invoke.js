@@ -39,7 +39,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'FasteNetwork');
 
             // Submit the specified transaction.
             await contract.submitTransaction("createTransaction", transactionID, userPki, iotPki, task, infoPrint, timestamp);
@@ -84,7 +84,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'Provenance');
 
             // Submit the specified transaction.
             await contract.submitTransaction("createProv", provenanceID, info);

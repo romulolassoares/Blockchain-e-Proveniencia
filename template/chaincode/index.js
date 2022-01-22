@@ -6,7 +6,8 @@
 
 'use strict';
 
-const FabCar = require('./lib/fastenetwork');
+const FasteNetwork = require('./lib/contracts').FasteNetwork;
 
-module.exports.FabCar = FabCar;
-module.exports.contracts = [ FabCar ];
+module.exports.FasteNetwork = FasteNetwork;
+
+module.exports.contracts = [ FasteNetwork ];

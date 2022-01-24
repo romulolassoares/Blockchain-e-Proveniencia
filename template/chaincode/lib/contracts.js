@@ -145,7 +145,7 @@ class Provenance extends Contract {
         return JSON.stringify(allResults);
     } 
  
- }
+}
 
 module.exports.FasteNetwork = FasteNetwork;
 module.exports.Provenance = Provenance;

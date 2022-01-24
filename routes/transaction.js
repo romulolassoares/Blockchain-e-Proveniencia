@@ -14,6 +14,7 @@ const registerProv = require('../app/provenance/registerData')
 
 const createProvData = require('../app/provenance/createProvData')
 const getProvData = require('../app/provenance/getProvData')
+const makeProv = require('../app/provenance/makeProv')
 
 const fakeUpload = require('../app/controller/fakeUploadFile')
 
@@ -101,45 +102,14 @@ router.post('/save', async (req, res) => {
 
             await invoke.saveProv(provenanceID, userPki, JSON.stringify(infoProv), rede);
 
-            // Provenace Capture
+            // Provenace Capture new activity
             const nameActivity = "transaction"+transactionID
             const pkiActivity = transactionID;
             const dateActivity = "date"
             const provTypeActivity = "transaction"
             await createProvData.registerActivity(nameActivity, pkiActivity, dateActivity, provTypeActivity)
-            const activity = await getProvData.getActivityByName(nameActivity)
-         
-            const agent = await getProvData.getAgentByName(userPki)
-         
-            await createProvData.wasAssociatedWith(agent, activity)
-            // create relathionships here?
 
-            // Call update file ----------------------------------------------------
-            const dataReturn = await fakeUpload.uploadFile()
-            const activityDoc = dataReturn.activity
-            const entityDoc = dataReturn.entity
-            
-
-            // const activityDoc = await getProvData.getActivityByName("")
-         
-            await createProvData.wasInformedBy(activityDoc, activity)
-
-            let n = (Math.random() * 0xfffff * 1000000).toString(16);
-            const printEntityID = n.slice(0,6);
-            console.log(printEntityID);
-            const namePrintEntity = "printEntity" + printEntityID;
-            const provTypePrintEntity = "print";
-            await createProvData.registerEntity(namePrintEntity, infoPrint, provTypePrintEntity);
-
-            const entityPrint = await getProvData.getEntityByName(namePrintEntity);
-
-            await createProvData.wasGeneratedBy(activity, entityPrint);
-
-            await createProvData.wasUsed(activity, entityPrint);
-
-            await createProvData.wasDerivedFrom(entityDoc, entityPrint);
-
-            // Finished
+            await makeProv.createRelationshipTransactionSimulation(nameActivity, userPki, infoPrint)
 
             await logDatabase.save();
             res.redirect('/transaction?msg=success');

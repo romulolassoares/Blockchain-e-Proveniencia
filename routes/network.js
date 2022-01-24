@@ -4,6 +4,7 @@ const createNetwork = require('../app/controller/createNetwork')
 const rimraf = require("rimraf");
 const path = require('path');
 const RedeDatabase = require('../app/database/models/RedeModel')
+const UserDatabase = require('../app/database/models/UserModel')
 const enrollAdmin = require('../app/transaction/enrollAdmin')
 const registerUser = require('../app/transaction/registerUser')
 
@@ -68,17 +69,38 @@ router.post('/routeDeleteNetwork', async (req, res)=>{
     idRede = req.body.idRede 
     networkName = req.body.nomeRede 
 
+    // const rede = await RedeDatabase.findOne({
+    //     isOnline: true
+    //  })
+
     const networks = path.join(process.cwd(), 'networks');
     const pathNetwork = networks + '/' + networkName;
 
     rimraf(pathNetwork, function () {
         console.log("Network deleted!"); 
-   });
+    });
+
+    query = {
+        "network": idRede,
+    }
+    UserDatabase.deleteMany(query, function (err) {
+        if(err) console.log(err);
+    })
+    console.log("Users from network delete from database"); 
+    // var dbo = db.db("mydb");
+    // var myquery = { address: /^O/ };
+    // dbo.collection("customers").deleteMany(myquery, function(err, obj) {
+    //     if (err) throw err;
+    //     console.log(obj.result.n + " document(s) deleted");
+    //     db.close();
+    // });
 
     RedeDatabase.findByIdAndDelete(idRede, function (err) {
         if (err) res.redirect('/resultDelete?msg=error');
             res.redirect('/resultDelete?msg=success');     
     });
+
+
     
 });
 

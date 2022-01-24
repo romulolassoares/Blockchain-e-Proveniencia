@@ -37,7 +37,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'FasteNetwork');
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('queryTransaction', transactionID);
@@ -80,7 +80,7 @@ module.exports = {
             const network = await gateway.getNetwork(rede.nomeCanal);
 
             // Get the contract from the network.
-            const contract = network.getContract('fastenetwork');
+            const contract = network.getContract('fastenetwork', 'Provenance');
 
             // Evaluate the specified transaction.
             const result = await contract.evaluateTransaction('queryProvenance', provenanceID);
@@ -109,15 +109,15 @@ module.exports = {
             // console.log(`Wallet path: ${walletPath}`);
 
             // Check to see if we've already enrolled the user.
-            const identity = await wallet.get(user.nome);
+            const identity = await wallet.get(user.pki);
             if (!identity) {
-                console.log(`An identity for the user "${user.nome}" already exists in the wallet`);
+                console.log(`An identity for the user "${user.pki}" already exists in the wallet`);
                 return null;
             }
 
             // Create a new gateway for connecting to our peer node.
             const gateway = new Gateway();
-            await gateway.connect(ccp, { wallet, identity: user.nome, discovery: { enabled: true, asLocalhost: true } });
+            await gateway.connect(ccp, { wallet, identity: user.pki, discovery: { enabled: true, asLocalhost: true } });
 
             // Get the network (channel) our contract is deployed to.
             const network = await gateway.getNetwork(rede.nomeCanal);

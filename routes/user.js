@@ -46,7 +46,8 @@ router.post('/save', async (req, res) => {
       nome: nome,
       descricao: descricao,
       permissao: permissao,
-      pki: pki
+      pki: pki,
+      network: rede['_id']
     })
   
     await userDatabase.save(); 

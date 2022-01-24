@@ -15,6 +15,10 @@ const UserSchema = new mongoose.Schema({
     pki:{
         type: String,
         required: true
+    },
+    network:{
+        type: String,
+        required: true
     }
 })
 

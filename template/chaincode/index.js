@@ -7,7 +7,9 @@
 'use strict';
 
 const FasteNetwork = require('./lib/contracts').FasteNetwork;
+const Provenance = require('./lib/contracts').Provenance;
 
 module.exports.FasteNetwork = FasteNetwork;
+module.exports.Provenance = Provenance;
 
-module.exports.contracts = [ FasteNetwork ];
+module.exports.contracts = [ FasteNetwork, Provenance ];

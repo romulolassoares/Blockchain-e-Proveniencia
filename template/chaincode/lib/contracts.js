@@ -148,3 +148,4 @@ class Provenance extends Contract {
  }
 
 module.exports.FasteNetwork = FasteNetwork;
+module.exports.Provenance = Provenance;

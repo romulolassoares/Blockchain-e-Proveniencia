@@ -20,6 +20,7 @@ module.exports = {
       // Lib dentro do chaincode
       const templateChaincodeLibArchive = path.join(process.cwd(), '/template/chaincode/lib');
       const chaincodeLibFastennetworkFile = path.resolve(__dirname, templateChaincodeLibArchive, 'fastenetwork.js');
+      const chaincodeLibFastennetworkFile2 = path.resolve(__dirname, templateChaincodeLibArchive, 'contracts.js');
 
       fs.copyFileSync(chaincodeIndexFile, pathNetworks+"/chaincode/index.js");
       fs.copyFileSync(chaincodePackageFile, pathNetworks+"/chaincode/package.json");
@@ -32,6 +33,7 @@ module.exports = {
       fs.copyFileSync(chaincodeJSRegisterUserFile, pathNetworks+"/chaincode/javascript/registerUser.js");
 
       fs.copyFileSync(chaincodeLibFastennetworkFile, pathNetworks+"/chaincode/lib/fastenetwork.js");
+      fs.copyFileSync(chaincodeLibFastennetworkFile2, pathNetworks+"/chaincode/lib/contracts.js");
    }
 
 }

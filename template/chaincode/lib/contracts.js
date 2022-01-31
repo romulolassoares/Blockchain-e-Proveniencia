@@ -163,7 +163,7 @@ class ProArticle extends contract {
         return response.toString();
     }
 
-    async createTransaction(ctx, transactionID, userSender, userReciver, document, requisition) {
+    async createTransactionProArticle(ctx, transactionID, userSender, userReciver, document, requisition) {
         console.info("======== START: Create Transaction ==========");
 
         const transaction = {
@@ -179,7 +179,7 @@ class ProArticle extends contract {
         console.info(response);
     }
 
-    async queryTransaction(ctx, transactionID) {
+    async queryTransactionProArticle(ctx, transactionID) {
         const transactionAsBytes = await ctx.stub.getState(transactionID);
         if(!transactionAsBytes || transaction.length === 0) {
             throw new Error(`${transactionID} does not exist`);

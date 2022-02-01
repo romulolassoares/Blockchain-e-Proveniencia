@@ -139,6 +139,13 @@ router.get('/routeStopNetwork/:id', async (req, res)=>{
         if(err) return res.send(err)
         console.log("Atualizado")
     })
+
+    query = {
+        "network": rededatabase._id,
+    }
+    UserDatabase.deleteMany(query, function (err) {
+        if(err) console.log(err);
+    })
 });
 
 // Instalar chaincode

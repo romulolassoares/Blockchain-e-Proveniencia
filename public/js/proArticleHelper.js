@@ -38,7 +38,7 @@ async function getUsers() {
       var users = response.data;
       console.log(users);
 
-      var select = document.getElementById("selectUsers");
+      var select = document.getElementById("userPki");
 
       for (var i = 0; i < users.length; i++) {
          var option = document.createElement("option");

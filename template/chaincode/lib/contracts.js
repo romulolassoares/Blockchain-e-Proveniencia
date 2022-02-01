@@ -147,7 +147,7 @@ class Provenance extends Contract {
  
 }
 
-class ProArticle extends contract {
+class ProArticle extends Contract {
     async initLedger(ctx) {
         await ctx.stub.putState("Init", "ProArticle Project");
         return "success";

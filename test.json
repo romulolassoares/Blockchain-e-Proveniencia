@@ -1,0 +1,21 @@
+{
+   "docker_compose": {
+      "base_path": "/template/docker",
+      "files": {
+         "docker_ca": {
+            "base_path": "/",
+            "files": {}
+         },
+         "docker_compose": {
+            "base_path": "/",
+            "files": {}
+         },
+         "docker_c": {
+            "base_path": "/",
+            "files": {}
+         }
+      }
+   },
+   "crypto_config": {},
+   "configtx": {}
+}

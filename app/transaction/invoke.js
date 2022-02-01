@@ -115,15 +115,15 @@ module.exports = {
             console.log(`Wallet path: ${walletPath}`);
 
             // Check to see if we've already enrolled the user.
-            const identity = await wallet.get(userPki);
+            const identity = await wallet.get(userSender);
             if (!identity) {
-                console.log(`An identity for the user "${userPki}" does not exist in the wallet`);
+                console.log(`An identity for the user "${userSender}" does not exist in the wallet`);
                 return 2;
             }
 
             // Create a new gateway for connecting to our peer node.
             const gateway = new Gateway();
-            await gateway.connect(ccp, { wallet, identity: userPki, discovery: { enabled: true, asLocalhost: true } });
+            await gateway.connect(ccp, { wallet, identity: userSender, discovery: { enabled: true, asLocalhost: true } });
 
             // Get the network (channel) our contract is deployed to.
             const network = await gateway.getNetwork(rede.nomeCanal);

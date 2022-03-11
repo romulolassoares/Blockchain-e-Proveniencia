@@ -10,14 +10,6 @@ const query = require('../app/transaction/query')
 
 const RedeDatabase = require('../app/database/models/RedeModel')
 const UserDatabase = require('../app/database/models/UserModel')
-const registerProv = require('../app/provenance/registerData')
-
-const createProvData = require('../app/provenance/createProvData')
-const getProvData = require('../app/provenance/getProvData')
-const makeProv = require('../app/provenance/makeProv')
-
-const fakeUpload = require('../app/controller/fakeUploadFile')
-
 
 router.get('/', (req, res) =>{
     res.render('iot/index',{
@@ -41,14 +33,7 @@ router.get('/getDocInfo', async (req, res) => {
    const docTitle = config['docTitle'];
    const format = config['format'];
    const author = config['author'];
-   const base64 = config['base64']
-
-   const info = {
-      "docTitle": docTitle,
-      "format": format,
-      "author": author,
-      "base64": base64,
-   }
+   const base64 = config['base64'];
 
    res.send(config);
 });
@@ -73,16 +58,6 @@ router.post('/save', async (req, res) => {
    if(resultCompanyDestination === null){
       const status = "Company Destination not find"
 
-      //  const logDatabase = new LogDatabase({
-      //      transactionID: transactionID,
-      //      userPki: userPki,
-      //      iotPki: iotPki,
-      //      task: task,
-      //      timestamp: timestamp,
-      //      status: status
-      //  })
-
-      //  await logDatabase.save();   
       conole.log(status); 
       res.redirect('/transaction?msg=iottaskerror');
    
@@ -93,6 +68,7 @@ router.post('/save', async (req, res) => {
       })
       
       var antes = Date.now(); // Start Time
+      
       if(rede) {
          var resultTransaction = await invoke.saveProArticle(transactionID, companyOrigin, companyDestination, document, requisition, rede);
       } else {
@@ -106,45 +82,12 @@ router.post('/save', async (req, res) => {
       if(resultTransaction == 1){ // Success
          const status = "success"
 
-         // const logDatabase = new LogDatabase({
-         //       transactionID: transactionID,
-         //       userPki: userPki,
-         //       iotPki: iotPki,
-         //       task: task,
-         //       timestamp: timestamp,
-         //       status: status
-         // })
-
-         // infoProv = await registerProv.register(userPki,transactionID, task);
-
-         // await invoke.saveProv(provenanceID, userPki, JSON.stringify(infoProv), rede);
-
-         // Provenace Capture new activity
-         // const nameActivity = "transaction"+transactionID
-         // const pkiActivity = transactionID;
-         // const dateActivity = "date"
-         // const provTypeActivity = "transaction"
-         // await createProvData.registerActivity(nameActivity, pkiActivity, dateActivity, provTypeActivity)
-
-         // await makeProv.createRelationshipTransactionSimulation(nameActivity, userPki, infoPrint)
-
-         // await logDatabase.save();
          console.log(status);
          res.redirect('/transaction?msg=success');
 
       } else if(resultTransaction == 2){   
          const status = "invalid user"
 
-         // const logDatabase = new LogDatabase({
-         //    transactionID: transactionID,
-         //    userPki: userPki,
-         //    iotPki: iotPki,
-         //    task: task,
-         //    timestamp: timestamp,
-         //    status: status
-         // })
-
-         // await logDatabase.save();
          console.log(status);
 
          res.redirect('/transaction?msg=usererror');
@@ -152,16 +95,6 @@ router.post('/save', async (req, res) => {
       } else if(resultTransaction == 3){   
          const status = "internal error"
 
-         // const logDatabase = new LogDatabase({
-         //    transactionID: transactionID,
-         //    userPki: userPki,
-         //    iotPki: iotPki,
-         //    task: task,
-         //    timestamp: timestamp,
-         //    status: status
-         // })
-
-         // await logDatabase.save();
          console.log(status);
          
          res.redirect('/transaction?msg=internalerror');

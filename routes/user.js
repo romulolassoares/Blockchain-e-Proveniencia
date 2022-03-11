@@ -1,10 +1,11 @@
 const { response } = require('express');
 const express = require('express');
 const router = express.Router();
+
 const UserDatabase = require('../app/database/models/UserModel')
 const registerUser = require('../app/transaction/registerUser')
 const RedeDatabase = require('../app/database/models/RedeModel')
-const createProvData = require('../app/provenance/createProvData')
+// const createProvData = require('../app/provenance/createProvData')
 
 
 router.get('/', (req, res) =>{
@@ -51,7 +52,7 @@ router.post('/save', async (req, res) => {
     })
   
     await userDatabase.save(); 
-    createProvData.registerAgent(nome, pki, "user")
+    // createProvData.registerAgent(nome, pki, "user")
     res.redirect('/user/get'); 
   } 
 

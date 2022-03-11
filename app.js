@@ -32,11 +32,11 @@ var indexRouter = require('./routes/index');
 var networkRouter = require('./routes/network');
 var userRouter = require('./routes/user');
 var iotRouter = require('./routes/iot');
-// var adminRouter = require('./routes/admin');
+
 var transactionRouter = require('./routes/transaction');
-var provRouter = require('./routes/prov');
+
 var documentRouter = require('./routes/document');
-var apiProvRouter = require('./routes/apiProv');
+
 var proArticleRouter = require('./routes/proArticle');
 
 app.use('/network', networkRouter);
@@ -45,9 +45,9 @@ app.use('/user', userRouter);
 app.use('/iot', iotRouter);
 // app.use('/admin', adminRouter);
 app.use('/transaction', transactionRouter);
-app.use('/prov', provRouter);
+
 app.use('/document', documentRouter);
-app.use('/api_prov', apiProvRouter);
+
 app.use('/pro_article', proArticleRouter)
 //------END
 

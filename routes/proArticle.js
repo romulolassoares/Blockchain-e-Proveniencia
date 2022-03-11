@@ -10,18 +10,6 @@ const query = require('../app/transaction/query')
 
 const RedeDatabase = require('../app/database/models/RedeModel')
 const UserDatabase = require('../app/database/models/UserModel')
-const registerProv = require('../app/provenance/registerData')
-
-const createProvData = require('../app/provenance/createProvDataProArticle')
-const getProvData = require('../app/provenance/getProvData')
-const makeProv = require('../app/provenance/makeProv')
-
-const fakeUpload = require('../app/controller/fakeUploadFile')
-
-function sleep(ms) {
-   return new Promise((resolve => setTimeout(resolve, ms)));
-}
-
 
 router.get('/', (req, res) =>{
     res.render('iot/index',{
@@ -36,7 +24,6 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/getDocInfo', async (req, res) => {
-   var startTime = Date.now();
    // const config = require('../template/printerData/printer01.json');
    const configTemp = require('../template/docData/docs.json');
 
@@ -47,54 +34,6 @@ router.get('/getDocInfo', async (req, res) => {
    const format = config['format'];
    const author = config['author'];
    const base64 = config['base64'];
-   await sleep(1000);
-   var endTime = Date.now();
-
-   const infoDocument = {
-      "docTitle": docTitle,
-      "format": format,
-      "author": author,
-   };
-   const infoBase = {
-      "mime": "@file/pdf",
-      "data": base64,
-   };
-
-   // Provenance capture
-   // Creating activity Create Document
-   await createProvData.registerActivity(
-      "Create Document",
-      startTime,
-      endTime,
-      "create_document",
-      {}
-   );
-   // Creating entity Document Data
-   await createProvData.registerEntity(
-      "Create Entity",
-      infoDocument,
-      "document_data"
-   );
-   // Relationship Create Document and Document Data
-   
-
-   // Creating Activity Convert Base
-   startTime = Date.now();
-   await sleep(100);
-   endTime = Date.now();
-   await createProvData.registerActivity(
-      "Convert Base",
-      startTime,
-      endTime,
-      "convert_base",
-      {}
-   );
-   // Creating entity Document Base
-   await createProvData.registerEntity(
-      "Document Base 64",
-      infoBase,
-      "document_base"
-   );
 
    res.send(config);
 });
@@ -129,6 +68,7 @@ router.post('/save', async (req, res) => {
       })
       
       var antes = Date.now(); // Start Time
+      
       if(rede) {
          var resultTransaction = await invoke.saveProArticle(transactionID, companyOrigin, companyDestination, document, requisition, rede);
       } else {

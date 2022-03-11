@@ -12,11 +12,15 @@ const RedeDatabase = require('../app/database/models/RedeModel')
 const UserDatabase = require('../app/database/models/UserModel')
 const registerProv = require('../app/provenance/registerData')
 
-const createProvData = require('../app/provenance/createProvData')
+const createProvData = require('../app/provenance/createProvDataProArticle')
 const getProvData = require('../app/provenance/getProvData')
 const makeProv = require('../app/provenance/makeProv')
 
 const fakeUpload = require('../app/controller/fakeUploadFile')
+
+function sleep(ms) {
+   return new Promise((resolve => setTimeout(resolve, ms)));
+}
 
 
 router.get('/', (req, res) =>{
@@ -32,6 +36,7 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/getDocInfo', async (req, res) => {
+   var startTime = Date.now();
    // const config = require('../template/printerData/printer01.json');
    const configTemp = require('../template/docData/docs.json');
 
@@ -41,14 +46,55 @@ router.get('/getDocInfo', async (req, res) => {
    const docTitle = config['docTitle'];
    const format = config['format'];
    const author = config['author'];
-   const base64 = config['base64']
+   const base64 = config['base64'];
+   await sleep(1000);
+   var endTime = Date.now();
 
-   const info = {
+   const infoDocument = {
       "docTitle": docTitle,
       "format": format,
       "author": author,
-      "base64": base64,
-   }
+   };
+   const infoBase = {
+      "mime": "@file/pdf",
+      "data": base64,
+   };
+
+   // Provenance capture
+   // Creating activity Create Document
+   await createProvData.registerActivity(
+      "Create Document",
+      startTime,
+      endTime,
+      "create_document",
+      {}
+   );
+   // Creating entity Document Data
+   await createProvData.registerEntity(
+      "Create Entity",
+      infoDocument,
+      "document_data"
+   );
+   // Relationship Create Document and Document Data
+   
+
+   // Creating Activity Convert Base
+   startTime = Date.now();
+   await sleep(100);
+   endTime = Date.now();
+   await createProvData.registerActivity(
+      "Convert Base",
+      startTime,
+      endTime,
+      "convert_base",
+      {}
+   );
+   // Creating entity Document Base
+   await createProvData.registerEntity(
+      "Document Base 64",
+      infoBase,
+      "document_base"
+   );
 
    res.send(config);
 });
@@ -73,16 +119,6 @@ router.post('/save', async (req, res) => {
    if(resultCompanyDestination === null){
       const status = "Company Destination not find"
 
-      //  const logDatabase = new LogDatabase({
-      //      transactionID: transactionID,
-      //      userPki: userPki,
-      //      iotPki: iotPki,
-      //      task: task,
-      //      timestamp: timestamp,
-      //      status: status
-      //  })
-
-      //  await logDatabase.save();   
       conole.log(status); 
       res.redirect('/transaction?msg=iottaskerror');
    
@@ -106,45 +142,12 @@ router.post('/save', async (req, res) => {
       if(resultTransaction == 1){ // Success
          const status = "success"
 
-         // const logDatabase = new LogDatabase({
-         //       transactionID: transactionID,
-         //       userPki: userPki,
-         //       iotPki: iotPki,
-         //       task: task,
-         //       timestamp: timestamp,
-         //       status: status
-         // })
-
-         // infoProv = await registerProv.register(userPki,transactionID, task);
-
-         // await invoke.saveProv(provenanceID, userPki, JSON.stringify(infoProv), rede);
-
-         // Provenace Capture new activity
-         // const nameActivity = "transaction"+transactionID
-         // const pkiActivity = transactionID;
-         // const dateActivity = "date"
-         // const provTypeActivity = "transaction"
-         // await createProvData.registerActivity(nameActivity, pkiActivity, dateActivity, provTypeActivity)
-
-         // await makeProv.createRelationshipTransactionSimulation(nameActivity, userPki, infoPrint)
-
-         // await logDatabase.save();
          console.log(status);
          res.redirect('/transaction?msg=success');
 
       } else if(resultTransaction == 2){   
          const status = "invalid user"
 
-         // const logDatabase = new LogDatabase({
-         //    transactionID: transactionID,
-         //    userPki: userPki,
-         //    iotPki: iotPki,
-         //    task: task,
-         //    timestamp: timestamp,
-         //    status: status
-         // })
-
-         // await logDatabase.save();
          console.log(status);
 
          res.redirect('/transaction?msg=usererror');
@@ -152,16 +155,6 @@ router.post('/save', async (req, res) => {
       } else if(resultTransaction == 3){   
          const status = "internal error"
 
-         // const logDatabase = new LogDatabase({
-         //    transactionID: transactionID,
-         //    userPki: userPki,
-         //    iotPki: iotPki,
-         //    task: task,
-         //    timestamp: timestamp,
-         //    status: status
-         // })
-
-         // await logDatabase.save();
          console.log(status);
          
          res.redirect('/transaction?msg=internalerror');

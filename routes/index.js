@@ -2,8 +2,17 @@ var express = require('express');
 var router = express.Router();
 const mongodb = require('../app/database/mongodb/Server')
 
+const integrateApi = require('../app/integrateApi/relationships')
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  // integrateApi.used();
+  // integrateApi.wasGeneratedBy();
+  // integrateApi.wasAssociatedWith();
+  // integrateApi.wasAttribuitedTo();
+  // integrateApi.wasInformedBy();
+  // integrateApi.wasDerivedFrom();
+  // integrateApi.actedOnBehalfOf();
   res.render('index',{
     css: ''
   });

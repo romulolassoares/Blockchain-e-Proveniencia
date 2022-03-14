@@ -2,33 +2,35 @@
 window.onload = function start(){
    getDocInfo();
    getUsers();
+   getDocuments();
+
+}
+
+async function onUpdateDocument() {
+
+   getDocInfo();
+
+   var select = document.getElementById("documentBase64").innerHTML="...";   
+
 }
 
 async function getDocInfo() {
-   await axios.get('/pro_article/getDocInfo').then(function (response) {
+   var selectedValue = document.getElementById("selectdocument").value;  
+
+   await axios.get('/pro_article/getDocInfo', { params: { value: selectedValue } }).then(function (response) {
 		printerInfo = response.data;
-      console.log(printerInfo);
       
       var title = document.getElementById("title");
       var format = document.getElementById("documentFormat");
-      var base64 = document.getElementById("documentBase64");
       var author = document.getElementById("documentAuthor");
-      // var printGUID = document.getElementById("printGUID");
-      // var printDesity = document.getElementById("printDensity");
-      // var printDiameter = document.getElementById("printDiameter");
       
 
-      documentTitle.value = printerInfo['docTitle'];
-      format.value = printerInfo['format'];
-      base64.value = printerInfo['base64'];
-      author.value = printerInfo['author'];
-      // printLabel.value = printerInfo['name']['label'];
-      // printGUID.value = printerInfo['GUID'];
-      // printDesity.value = printerInfo['properties']['density'];
-      // printDiameter.value = printerInfo['properties']['diameter'];
+      documentTitle.value = printerInfo['title'];
+      format.value = printerInfo['data']['format'];
+
+      author.value = printerInfo['data']['author'];
 
 	}).catch(function (error) {
-		errorToast();
 		console.log(error);
 	})
 }
@@ -36,7 +38,6 @@ async function getDocInfo() {
 async function getUsers() {
    await axios.get('/user/getUsers').then(function (response) {
       var users = response.data;
-      console.log(users);
 
       var select = document.getElementById("userPki");
 
@@ -47,4 +48,37 @@ async function getUsers() {
          select.appendChild(option);
      }
    })
+}
+
+async function getDocuments() {
+   await axios.get('/pro_article/getDocs').then(function (response) {
+		docs = response.data;
+      
+      var select = document.getElementById("selectdocument");   
+
+      for (var i = 0; i < docs.length; i++) {
+         var option = document.createElement("option");
+         option.value = docs[i][0];
+         option.text = docs[i][0];
+         select.appendChild(option);
+      }
+
+      getDocInfo()
+
+	}).catch(function (error) {
+		console.log(error);
+	})
+}
+
+async function convertToBase() {
+   var selectedValue = document.getElementById("selectdocument").value;  
+   console.log(selectedValue);
+   await axios.get('/pro_article/convertBase', { params: { value: selectedValue } }).then(function (response) {
+		docs = response.data;
+
+      var select = document.getElementById("documentBase64").innerHTML=docs.base;   
+
+	}).catch(function (error) {
+		console.log(error);
+	})
 }

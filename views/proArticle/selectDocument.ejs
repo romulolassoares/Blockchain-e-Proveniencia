@@ -1,0 +1,36 @@
+<h4 style="text-align: center;">Selecionar Documento</h3>
+
+<div class="form-group col-md-12">
+	<label for="labelDocument">Documento:</label>
+	<select class="form-control" aria-label="Selecione o Documento" id="selectdocument" onchange="onUpdateDocument()">
+		<!-- <option value="none" selected>Selecionar</option> -->
+		<!-- <option value="user2">user2</option>
+		<option value="user3">user3</option> -->
+	</select>
+</div>
+
+<div class="form-group">
+	<div class="form-row">
+		<div class="form-group col-md-4">
+			<label for="labelPrintBrand">Titulo:</label>
+			<input type="text" class="form-control" id="documentTitle" name="documentTitle"
+				placeholder="..." readonly>
+		</div>
+		<div class="form-group col-md-4">
+			<label for="labelPrintMaterial">Formato:</label>
+			<input type="text" class="form-control" id="documentFormat" name="documentFormat"
+				placeholder="..." readonly>
+		</div>
+		<div class="form-group col-md-4">
+			<label for="labelPrintMaterial">Autor:</label>
+			<input type="text" class="form-control" id="documentAuthor" name="documentAuthor"
+				placeholder="..." readonly>
+		</div>									
+	</div>
+</div>
+
+
+<script src="/js/proArticleHelper.js"></script>
+
+
+<%- include('../importScript'); -%>

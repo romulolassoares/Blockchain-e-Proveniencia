@@ -15,70 +15,45 @@
 
 						<div class="card">
 							<div class="card-title">
-								<h3>New Transaction</h3>
+								<h3>Enviar Documentos</h3>
 							</div>
 
 							<div class="col-md-12" style="font-size: x-large;">
 
 								<form id="saveIoT" method="POST" action="/pro_article/save" enctype="application/json">
 
+									<h4 style="text-align: center;">Informações de Envio</h3>
+
 									<div class="form-row">
-										<div class="form-group col-md-2">
-											<label for="labelPkiUser">Usuário:</label>
+										<div class="form-group col-md-12">
+											<label for="labelPkiUser">Usuário Responsável:</label>
 											<select class="form-control" aria-label="Selecione o usuário" id="userPki">
-												<!-- <option value="user1">user1</option>
-												<option value="user2">user2</option>
+												<!-- <option value="user1" selected>user1</option> -->
+												<!-- <option value="user2">user2</option>
 												<option value="user3">user3</option> -->
 											</select>
 										</div>
-										<div class="form-group col-md-5">
+									</div>
+
+									<div class="form-row">
+										<div class="form-group col-md-6">
 											<label for="labelPkiUser">Empresa de Origem:</label>
 											<input type="text" class="form-control" id="companyOrigin" name="companyOrigin"
 												placeholder="Digite a chave do Usuário" required>
 										</div>
-										<div class="form-group col-md-5">
+										<div class="form-group col-md-6">
 											<label for="labelPkiIoT">Empresa de Destino:</label>
 											<input type="text" class="form-control" id="companyDestination" name="companyDestination"
 												placeholder="Digite a chave do dispositivo" required>
 										</div>
 									</div>
 
-									<h3 style="text-align: center;">Informações do Documento</h3>
-
-									<div class="form-group">
-										<div class="form-row">
-											<div class="form-group col-md-4">
-												<label for="labelPrintBrand">Titulo:</label>
-												<input type="text" class="form-control" id="documentTitle" name="documentTitle"
-													placeholder="..." readonly>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="labelPrintMaterial">Formato:</label>
-												<input type="text" class="form-control" id="documentFormat" name="documentFormat"
-													placeholder="..." readonly>
-											</div>
-											<div class="form-group col-md-4">
-												<label for="labelPrintMaterial">Autor:</label>
-												<input type="text" class="form-control" id="documentAuthor" name="documentAuthor"
-													placeholder="..." readonly>
-											</div>									
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="form-row">
-											<div class="form-group col-md-12">
-												<label for="labelPrintGUID">Base64:</label>
-												<textarea class="form-control" rows="3" placeholder="...?" id="documentBase64" name="documentBase64" readonly></textarea>
-												<!-- <input type="text" class="form-control" id="documentBase64" name="documentBase64"
-													placeholder="..." readonly multiline rows="30"> -->
-											</div>
-										</div>
-									</div>
+									<%- include('./selectDocument'); -%>
+									<%- include('./convertDocument'); -%>
 									
 									<div class="row">
 										<div class="col-lg-5"></div>
-										<div class="col-lg-2">
+										<div class="form-group col-md-12 text-center">
 											<button type="submit" class="btn btn-success">Salvar</button>
 										</div>
 										<div class="col-lg-5"></div>

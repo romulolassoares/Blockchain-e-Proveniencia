@@ -24,18 +24,41 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/getDocInfo', async (req, res) => {
-   // const config = require('../template/printerData/printer01.json');
+   const val = req.query.value
+
    const configTemp = require('../template/docData/docs.json');
 
-   const rand = Math.floor(Math.random() * 3) + 1;
-   const config = configTemp['value' +  rand];
-
-   const docTitle = config['docTitle'];
-   const format = config['format'];
-   const author = config['author'];
-   const base64 = config['base64'];
+   const config = {
+      title: val,
+      data: configTemp[val]
+   }
 
    res.send(config);
+});
+
+router.get('/convertBase', async (req, res) => {
+   const val = req.query.value
+
+   const configTemp = require('../template/docData/docs.json');
+
+   const config = {
+      title: val,
+      base: configTemp[val]["base64"]
+   }
+
+   res.send(config);
+});
+
+router.get('/getDocs', async (req, res) => {
+   const json_data = require('../template/docData/docs.json');
+
+   var result = [];
+   var x = 0;
+   for(var i in json_data){
+      result.push([i, json_data[i]]);
+      x++;
+   }
+   res.send(result);
 });
 
 router.post('/save', async (req, res) => {
@@ -58,7 +81,7 @@ router.post('/save', async (req, res) => {
    if(resultCompanyDestination === null){
       const status = "Company Destination not find"
 
-      conole.log(status); 
+      console.log(status); 
       res.redirect('/transaction?msg=iottaskerror');
    
    } else {

@@ -2,8 +2,13 @@ var express = require('express');
 var router = express.Router();
 const mongodb = require('../app/database/mongodb/Server')
 
+const integrateApi = require('../app/integrateApi/relationships')
+
+const temp = require('../app/integrateApi/provToBlockchain')
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  temp.provenanceToBlockchain();
   res.render('index',{
     css: ''
   });

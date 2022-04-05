@@ -56,7 +56,7 @@ module.exports = {
         }
     },
 
-    async saveProv(provenanceID, userPki, info, rede) {
+    async saveProv(provenanceID, userPki, node1, node2, relationship, rede) {
         console.log(rede)
         try {
             // load the network configuration
@@ -87,7 +87,7 @@ module.exports = {
             const contract = network.getContract('fastenetwork', 'Provenance');
 
             // Submit the specified transaction.
-            await contract.submitTransaction("createProv", provenanceID, info);
+            await contract.submitTransaction("createTransactionProvenance", provenanceID, node1, node2, relationship);
             console.log('Transaction has been submitted');
 
             // Disconnect from the gateway.

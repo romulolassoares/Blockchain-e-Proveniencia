@@ -20,7 +20,7 @@
 
 							<div class="col-md-12" style="font-size: x-large;">
 
-								<form id="saveIoT" method="POST" action="/pro_article/save" enctype="application/json">
+								<form id="saveIoT" method="POST" action="/pro_article/uploadData" enctype="multipart/form-data">
 
 									<h4 style="text-align: center;">Informações de Envio</h3>
 
@@ -28,44 +28,28 @@
 										<div class="form-group col-md-12">
 											<label for="labelPkiUser">Usuário Responsável:</label>
 											<select class="form-control" aria-label="Selecione o usuário" id="userPki" name="userPki">
-												<!-- <option value="user1" selected>user1</option> -->
-												<!-- <option value="user2">user2</option>
-												<option value="user3">user3</option> -->
-											</select>
-										</div>
-									</div>
-
-									<div class="form-row">
-										<div class="form-group col-md-6">
-											<label for="labelPkiUser">Empresa de Origem:</label>
-											<input type="text" class="form-control" id="companyOrigin" name="companyOrigin"
-												placeholder="Digite a chave do Usuário" required>
-										</div>
-										<div class="form-group col-md-6">
-											<label for="labelPkiIoT">Empresa de Destino:</label>
-											<input type="text" class="form-control" id="companyDestination" name="companyDestination"
-												placeholder="Digite a chave do dispositivo" required>
-										</div>
-									</div>
-
-									<div class="form-row">
-										<div class="form-group col-md-12">
-											<label for="labelDocumentName">Documento a enviar:</label>
-											<select class="form-control" aria-label="Selecione o documento" id="documetName" name="documetName">
-												<!-- <option value="user1" selected>user1</option> -->
+												<option value="user1" selected>user1</option>
 												<!-- <option value="user2">user2</option>
 												<option value="user3">user3</option> -->
 											</select>
 										</div>
 									</div>
 									
+									<div class="form-row">
+										<div class="form-group col-md-12">
+											<label for="formFileLg" class="form-label">Ecolha o Arquivo para Upload</label>
+											<input class="input" id="file" name="file" type="file">
+										</div>
+									</div>
+
 									<div class="row">
 										<div class="col-lg-5"></div>
 										<div class="form-group col-md-12 text-center">
-											<button type="submit" class="btn btn-success">Salvar</button>
+											<button type="submit" class="btn btn-success">Enviar</button>
 										</div>
 										<div class="col-lg-5"></div>
 									</div>
+									
 
 								</form>
 
@@ -82,5 +66,13 @@
 
 <script src="/js/proArticleHelper.js"></script>
 
+
+<!-- <script>
+	// Add the following code if you want the name of the file appear on select
+	$(".custom-file-input").on("change", function() {
+	  var fileName = $(this).val().split("\\").pop();
+	  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+	});
+</script> -->
 
 <%- include('../importScript'); -%>

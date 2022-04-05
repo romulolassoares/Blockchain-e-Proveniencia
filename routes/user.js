@@ -20,6 +20,7 @@ router.get("/new", (req, res) => {
 
 router.post("/save", async (req, res) => {
    const { nome, descricao, permissao, pki } = req.body;
+   console.log(req)
 
    const rede = await RedeDatabase.findOne({
       isOnline: true,

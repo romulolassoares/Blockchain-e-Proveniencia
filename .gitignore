@@ -5,3 +5,5 @@ node_modules/
 networks
 !/networks/bin
 !/networks/config
+
+tmp

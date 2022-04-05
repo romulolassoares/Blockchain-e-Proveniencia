@@ -1,15 +1,49 @@
-const { response } = require('express');
 const express = require('express');
 const router = express.Router();
-const IoTDatabase = require('../app/database/models/IoTModel');
-const LogDatabase = require('../app/database/models/LogModel');
 const { v4: uuidv4 } = require('uuid');
+const multer = require('multer');
+const multerConfig = require('../app/config/multer')
+const atob = require("atob");
+
+var base64 = require('file-base64');
 
 const invoke = require('../app/transaction/invoke')
 const query = require('../app/transaction/query')
 
 const RedeDatabase = require('../app/database/models/RedeModel')
 const UserDatabase = require('../app/database/models/UserModel')
+const DocumentDatabase = require('../app/database/models/DocumentModel')
+
+const relationship = require('../app/integrateApi/relationships');
+const provenanceData = require('../app/integrateApi/provenanceData')
+
+const provToBlockchain = require('../app/integrateApi/provToBlockchain')
+
+const axios = require('axios');
+
+function parseJwt (token) {
+   var base64Url = token.split('.')[1];
+   var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+   var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+   }).join(''));
+
+   return JSON.parse(jsonPayload);
+};
+
+const fileToBase64 = (filename, filepath) => {
+   return new Promise(resolve => {
+     var file = new File([filename], filepath);
+     var reader = new FileReader();
+     // Read file content on file loaded event
+     reader.onload = function(event) {
+       resolve(event.target.result);
+     };
+     
+     // Convert data to base64 
+     reader.readAsDataURL(file);
+   });
+ };
 
 router.get('/', (req, res) =>{
     res.render('iot/index',{
@@ -17,6 +51,11 @@ router.get('/', (req, res) =>{
     });
 });
 
+router.get('/uploadFile', function(req, res) {
+   res.render('proArticle/upload',{
+       css: ''
+   });
+});
 router.get('/new', function(req, res) {
    res.render('proArticle/cadastrar',{
        css: ''
@@ -24,7 +63,11 @@ router.get('/new', function(req, res) {
 });
 
 router.get('/getDocInfo', async (req, res) => {
+   const start = new Date().getTime()
+
+   var { value, selectedValue, userKey, userName, workFor } = req.query
    const val = req.query.value
+
 
    const configTemp = require('../template/docData/docs.json');
 
@@ -33,6 +76,9 @@ router.get('/getDocInfo', async (req, res) => {
       data: configTemp[val]
    }
 
+   const end = new Date().getTime()
+
+   console.log(configTemp[val])
    res.send(config);
 });
 
@@ -62,26 +108,21 @@ router.get('/getDocs', async (req, res) => {
 });
 
 router.post('/save', async (req, res) => {
-   const { userPki, companyOrigin, companyDestination, documentTitle, documentFormat, documentAuthor, documentBase64 } = req.body;
+   const { userPki, companyOrigin, companyDestination, documetName } = req.body;
    const transactionID = uuidv4();
    const provenanceID = uuidv4();
    const timestamp = Date.now();
 
-   const documentJSON = {
-      "title": documentTitle,
-      "author": documentAuthor,
-      "format": documentFormat,
-      "base64": documentBase64
-   }
-   const document = JSON.stringify(documentJSON);
+   
    const requisition = "Send Document"
 
    var resultCompanyDestination = await UserDatabase.findOne({ pki: companyDestination})
+   var document = await provenanceData.getEntityByName(documetName);
 
    if(resultCompanyDestination === null){
       const status = "Company Destination not find"
 
-      console.log(status); 
+      // console.log(status); 
       res.redirect('/transaction?msg=iottaskerror');
    
    } else {
@@ -99,13 +140,44 @@ router.post('/save', async (req, res) => {
          resultado = 3
       }
       
-       var duracao = Date.now() - antes; // End Time
+      var depois = Date.now()
+       var duracao = depois - antes; // End Time
        console.log("levou " + duracao + "ms");
 
       if(resultTransaction == 1){ // Success
          const status = "success"
 
+         // var entity = null;
+         var entity = document;
+         console.log(entity)
+
+         const activitySendDocument = {
+            "name": "Send Document ",
+            "provType": "send-document",
+            "start_time": antes.toString(),
+            "end_time": depois.toString()
+         }
+
+         const agent = {
+            "name": resultCompanyDestination.nome,
+            "provType": "agent-user",
+            "data": {
+               "pki": resultCompanyDestination.pki,
+               "network": resultCompanyDestination.network
+            }
+         }
+
+         // console.log(entity);
+
+         entity.data = parseJwt(entity.data);
+         // console.log(entity);
+
+
+         await relationship.wasAssociatedWith(activitySendDocument, agent, userPki)
+         await relationship.used(activitySendDocument, entity, userPki)
+
          console.log(status);
+         // await provToBlockchain.provenanceToBlockchain(userPki)
          res.redirect('/transaction?msg=success');
 
       } else if(resultTransaction == 2){   
@@ -124,5 +196,93 @@ router.post('/save', async (req, res) => {
       } 
    }
 });
+
+router.post('/uploadData', multer(multerConfig).single('file'), async (req, res) => {
+   const start = new Date().getTime()
+   var user = await UserDatabase.findOne({ pki: req.body.userPki})
+
+   const activityCreateDocument = {
+      "name": "Create Document ",
+      "provType": "create-document",
+      "start_time": start.toString(),
+      "end_time": (start+req.file.size).toString()
+   }
+   const entityDocumentData = {
+      "name": "Document Data " + req.file.originalname,
+      "provType": "document-data",
+      "data": {
+         "filename": req.file.filename,
+         "format": req.file.mimetype,
+         "path": req.file.path,
+         "title": req.file.selectedValue,
+         "size": req.file.size
+      }
+   }
+
+   const agent = {
+      "name": user.nome,
+      "provType": "agent-user",
+      "data": {
+         "pki": user.pki,
+         "network": user.network
+      }
+   }
+
+   await relationship.wasGeneratedBy(entityDocumentData, activityCreateDocument), user.pki;
+   await relationship.wasAssociatedWith(activityCreateDocument, agent, user.pki);
+
+   const startConversion = new Date().getTime();
+   const base64Data = await new Promise((resolve, reject) => {
+      base64.encode(req.file.path, function(err, base64String) {
+         if(err) throw Error("Failed conversion")
+         else {
+            resolve(base64String);
+         }
+       });
+   })
+   const endConversion = new Date().getTime();
+
+   activityConvertBase = {
+      "name": "Convert Document " + req.file.originalname,
+      "provType": "convert-document",
+      "start_time": startConversion,
+      "end_time": endConversion
+   }
+
+   entityDocumentBase = {
+      "name": "Base 64 - " + req.file.originalname,
+      "provType": "document-base",
+      "data": {
+         "base": base64Data,
+         "mime": req.file.mimetype
+      }
+   }
+
+   await relationship.wasInformedBy(activityConvertBase, activityCreateDocument, user.pki);
+   await relationship.used(activityConvertBase, entityDocumentData, user.pki);
+   await relationship.wasGeneratedBy(entityDocumentBase, activityConvertBase, user.pki);
+   await relationship.wasDerivedFrom(entityDocumentBase, entityDocumentData, user.pki);
+
+
+   var documentDataVerify = await DocumentDatabase.findOne({ name: entityDocumentBase.name})
+
+   if(documentDataVerify == null) {
+      const documentDatabase = new DocumentDatabase({
+         name: entityDocumentBase.name,
+         base64: entityDocumentBase.data.base,
+         provType: entityDocumentBase.provType
+      })
+      documentDatabase.save()
+   }
+
+   
+
+   console.log("ok");
+   res.redirect('/transaction?msg=success');
+})
+
+router.get("/getDocuments", async (req, res) => {
+   res.send(await DocumentDatabase.find());
+ });
 
 module.exports = router;

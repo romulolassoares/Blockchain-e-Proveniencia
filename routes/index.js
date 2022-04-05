@@ -4,15 +4,11 @@ const mongodb = require('../app/database/mongodb/Server')
 
 const integrateApi = require('../app/integrateApi/relationships')
 
+const temp = require('../app/integrateApi/provToBlockchain')
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // integrateApi.used();
-  // integrateApi.wasGeneratedBy();
-  // integrateApi.wasAssociatedWith();
-  // integrateApi.wasAttribuitedTo();
-  // integrateApi.wasInformedBy();
-  // integrateApi.wasDerivedFrom();
-  // integrateApi.actedOnBehalfOf();
+  temp.provenanceToBlockchain();
   res.render('index',{
     css: ''
   });

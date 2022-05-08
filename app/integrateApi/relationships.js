@@ -5,8 +5,8 @@ const axios = require('axios');
 const provToBlockchain = require('../integrateApi/provToBlockchain')
 const convertJWT = require('../controller/convertJWT')
 
-// const baseURL = "https://api-provenance.herokuapp.com";
-const baseURL = "http://localhost:3333";
+const baseURL = "https://api-provenance.herokuapp.com";
+// const baseURL = "http://localhost:3333";
 
 async function used(activity, entity, userPki) {
    const json = {

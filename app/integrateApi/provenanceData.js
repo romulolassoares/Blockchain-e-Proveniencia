@@ -2,8 +2,8 @@ const axios = require('axios');
 
 // const integrate = require('./integrate').getBaseRoute();
 
-// const baseURL = "https://api-provenance.herokuapp.com";
-const baseURL = "http://localhost:3333";
+const baseURL = "https://api-provenance.herokuapp.com";
+// const baseURL = "http://localhost:3333";
 
 const DocumentDatabase = require('../database/models/DocumentModel')
 

@@ -150,7 +150,7 @@ router.post('/save', async (req, res) => {
       var antes = Date.now(); // Start Time
       
       if(rede) {
-         var resultTransaction = await invoke.saveProArticle(transactionID, companyOrigin, companyDestination, document, requisition, rede);
+         var resultTransaction = await invoke.saveProArticle("Block:"+transactionID, companyOrigin, companyDestination, document, requisition, rede);
       } else {
          console.log("Nenhuma rede iniciada!!!!")
          resultado = 3

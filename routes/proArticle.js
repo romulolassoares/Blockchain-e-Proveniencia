@@ -119,6 +119,22 @@ router.post('/save', async (req, res) => {
    var resultCompanyDestination = await UserDatabase.findOne({ pki: companyDestination})
    var document = await provenanceData.getEntityByName(documetName);
 
+   // const activitySendDocument = {
+   //    "name": "Send Document ",
+   //    "provType": "send-document",
+   //    "start_time": antes.toString(),
+   //    "end_time": depois.toString()
+   // }
+
+   const agent = {
+      "name": resultCompanyDestination.nome,
+      "provType": "agent-user",
+      "data": {
+         "pki": resultCompanyDestination.pki,
+         "network": resultCompanyDestination.network
+      }
+   }
+
    if(resultCompanyDestination === null){
       const status = "Company Destination not find"
 
@@ -134,7 +150,7 @@ router.post('/save', async (req, res) => {
       var antes = Date.now(); // Start Time
       
       if(rede) {
-         var resultTransaction = await invoke.saveProArticle(transactionID, companyOrigin, companyDestination, document, requisition, rede);
+         var resultTransaction = await invoke.saveProArticle("Block:"+transactionID, companyOrigin, companyDestination, document, requisition, rede);
       } else {
          console.log("Nenhuma rede iniciada!!!!")
          resultado = 3
@@ -144,6 +160,13 @@ router.post('/save', async (req, res) => {
        var duracao = depois - antes; // End Time
        console.log("levou " + duracao + "ms");
 
+       const activitySendDocument = {
+         "name": "Send Document ",
+         "provType": "send-document",
+         "start_time": antes.toString(),
+         "end_time": depois.toString()
+      }
+
       if(resultTransaction == 1){ // Success
          const status = "success"
 
@@ -151,21 +174,7 @@ router.post('/save', async (req, res) => {
          var entity = document;
          console.log(entity)
 
-         const activitySendDocument = {
-            "name": "Send Document ",
-            "provType": "send-document",
-            "start_time": antes.toString(),
-            "end_time": depois.toString()
-         }
 
-         const agent = {
-            "name": resultCompanyDestination.nome,
-            "provType": "agent-user",
-            "data": {
-               "pki": resultCompanyDestination.pki,
-               "network": resultCompanyDestination.network
-            }
-         }
 
          // console.log(entity);
 
@@ -183,12 +192,38 @@ router.post('/save', async (req, res) => {
       } else if(resultTransaction == 2){   
          const status = "invalid user"
 
+         const entity = {
+            "name": "Error#" + uuidv4(),
+            "provType": "document-data",
+            "data": {
+               "status": status,
+               "code": "0x0001a",
+               "message": "User " + userPki + "is not registered on the network"
+            }
+         }
+         
+         await relationship.wasAssociatedWith(activitySendDocument, agent, userPki)
+         await relationship.wasGeneratedBy(entity, activitySendDocument, userPki);
+         // await relationship.used(activitySendDocument, entity, userPki)
          console.log(status);
 
          res.redirect('/transaction?msg=usererror');
 
       } else if(resultTransaction == 3){   
          const status = "internal error"
+
+         const entity = {
+            "name": "Error#" + uuidv4(),
+            "provType": "document-data",
+            "data": {
+               "status": status,
+               "code": "0x0001b",
+               "message": "Found a internel error at the network"
+            }
+         }
+         
+         await relationship.wasAssociatedWith(activitySendDocument, agent, userPki)
+         await relationship.wasGeneratedBy(entity, activitySendDocument, userPki);
 
          console.log(status);
          
@@ -228,7 +263,7 @@ router.post('/uploadData', multer(multerConfig).single('file'), async (req, res)
       }
    }
 
-   await relationship.wasGeneratedBy(entityDocumentData, activityCreateDocument), user.pki;
+   await relationship.wasGeneratedBy(entityDocumentData, activityCreateDocument, user.pki);
    await relationship.wasAssociatedWith(activityCreateDocument, agent, user.pki);
 
    const startConversion = new Date().getTime();

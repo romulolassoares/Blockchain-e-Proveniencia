@@ -12,7 +12,7 @@ async function save(userPki, node1, node2, relationship) {
 
    var antes = Date.now(); // Start Time
    if(rede) {
-      var resultTransaction = await invoke.saveProv(transactionID, userPki, node1, node2, relationship, rede);
+      var resultTransaction = await invoke.saveProv("Prov:"+transactionID, userPki, node1, node2, relationship, rede);
    } else {
       console.log("Nenhuma rede iniciada!!!!")
       resultado = 3
